@@ -1,0 +1,23 @@
+[package]
+name = "paysight-core"
+description = "Detection engine for payment gateways, BNPL, wallets, bot mitigation, WAF/CDN, captcha, and device-fingerprinting vendors on arbitrary websites."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+authors.workspace = true
+readme = "../../README.md"
+keywords = ["payments", "stripe", "adyen", "antibot", "fingerprint"]
+categories = ["web-programming", "api-bindings"]
+
+[dependencies]
+wreq = { workspace = true, features = ["socks"] }
+wreq-util.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+url.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true

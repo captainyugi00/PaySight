@@ -1,0 +1,59 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/paysight-core",
+    "crates/paysight-report",
+    "crates/paysight-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+license = "Apache-2.0"
+repository = "https://github.com/captainyugi00/PaySight"
+homepage = "https://github.com/captainyugi00/PaySight"
+authors = ["PaySight Contributors"]
+readme = "../../README.md"
+
+[workspace.dependencies]
+# HTTP client with TLS fingerprinting / browser emulation
+wreq = "5"
+wreq-util = "2"
+
+# Async runtime
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "fs", "sync"] }
+
+# Errors
+thiserror = "2"
+anyhow = "1"
+
+# URL handling
+url = { version = "2", features = ["serde"] }
+
+# Serde
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# Tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+# CLI
+clap = { version = "4", features = ["derive", "env", "wrap_help"] }
+indicatif = "0.18"
+console = "0.16"
+comfy-table = "7"
+humantime = "2"
+colorgrad = "0.7"
+
+# Internal crates
+paysight-core = { version = "0.1.0", path = "crates/paysight-core" }
+paysight-report = { version = "0.1.0", path = "crates/paysight-report" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = "debuginfo"
