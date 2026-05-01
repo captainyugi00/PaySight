@@ -111,8 +111,7 @@ impl Scanner {
                 && !html_body.is_empty()
                 && fetched_js.len() < self.inner.config.max_js_total
             {
-                let final_base =
-                    Url::parse(&probe.final_url).unwrap_or_else(|_| probe_url.clone());
+                let final_base = Url::parse(&probe.final_url).unwrap_or_else(|_| probe_url.clone());
                 let resources = extract_resource_urls(&html_body, &final_base);
                 let mut to_fetch: Vec<Url> = Vec::new();
                 for resource in resources {
@@ -231,10 +230,7 @@ fn normalize_target(input: &str) -> Result<Url> {
     })
 }
 
-async fn fetch_probe(
-    client: &Client,
-    url: &Url,
-) -> (ProbeOutcome, String, String, Vec<String>) {
+async fn fetch_probe(client: &Client, url: &Url) -> (ProbeOutcome, String, String, Vec<String>) {
     let url_str = url.to_string();
     match client.get(url.clone()).send().await {
         Ok(resp) => {
@@ -496,7 +492,7 @@ fn scan_payment(corpus_lower: &str, signatures: &[PaymentSignature]) -> Vec<Paym
     for h in &mut out {
         h.confidence = Confidence::from_score(h.score);
     }
-    out.sort_by(|a, b| b.score.cmp(&a.score));
+    out.sort_by_key(|h| std::cmp::Reverse(h.score));
     trace!(hit_count = out.len(), "payment scan complete");
     out
 }
@@ -527,7 +523,7 @@ fn scan_antibots(corpus_lower: &str, signatures: &[AntibotSignature]) -> Vec<Ant
     for h in &mut out {
         h.confidence = Confidence::from_score(h.score);
     }
-    out.sort_by(|a, b| b.score.cmp(&a.score));
+    out.sort_by_key(|h| std::cmp::Reverse(h.score));
     trace!(hit_count = out.len(), "antibot scan complete");
     out
 }
@@ -538,7 +534,10 @@ fn classify_auth_gate(probes: &[ProbeOutcome], payment_hits: &[PaymentHit]) -> A
         .iter()
         .filter(|p| {
             let path_url = Url::parse(&p.url).ok();
-            let path = path_url.as_ref().map(|u| u.path().to_string()).unwrap_or_default();
+            let path = path_url
+                .as_ref()
+                .map(|u| u.path().to_string())
+                .unwrap_or_default();
             checkout_paths.iter().any(|cp| path == *cp)
         })
         .collect();
@@ -554,9 +553,9 @@ fn classify_auth_gate(probes: &[ProbeOutcome], payment_hits: &[PaymentHit]) -> A
         .iter()
         .any(|h| h.category == PaymentCategory::PrimaryGateway && h.score >= 5);
 
-    let all_blocked = checkout_probes.iter().all(|p| {
-        p.redirected_to_auth || p.status == 401 || p.status == 403 || p.status == 404
-    });
+    let all_blocked = checkout_probes
+        .iter()
+        .all(|p| p.redirected_to_auth || p.status == 401 || p.status == 403 || p.status == 404);
 
     match (any_open_checkout_loaded, has_primary_gateway, all_blocked) {
         (_, true, _) => AuthGateStatus::Open,
@@ -570,7 +569,9 @@ fn classify_auth_gate(probes: &[ProbeOutcome], payment_hits: &[PaymentHit]) -> A
 
 fn now_iso8601() -> String {
     use std::time::{SystemTime, UNIX_EPOCH};
-    let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default();
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default();
     let secs = now.as_secs();
     // Format as RFC 3339 manually to avoid pulling in chrono just for this.
     let (y, mo, d, h, mi, se) = epoch_to_ymdhms(secs);
@@ -614,14 +615,22 @@ mod tests {
     #[test]
     fn auth_redirect_detection() {
         assert!(looks_like_auth_redirect("https://x.com/login"));
-        assert!(looks_like_auth_redirect("https://x.com/member/signup/select_type"));
+        assert!(looks_like_auth_redirect(
+            "https://x.com/member/signup/select_type"
+        ));
         assert!(!looks_like_auth_redirect("https://x.com/checkout"));
     }
 
     #[test]
     fn extract_attr_basic() {
-        assert_eq!(extract_attr("<script src=\"a.js\">", "src"), Some("a.js".into()));
-        assert_eq!(extract_attr("<script src='a.js'>", "src"), Some("a.js".into()));
+        assert_eq!(
+            extract_attr("<script src=\"a.js\">", "src"),
+            Some("a.js".into())
+        );
+        assert_eq!(
+            extract_attr("<script src='a.js'>", "src"),
+            Some("a.js".into())
+        );
         assert_eq!(extract_attr("<script defer>", "src"), None);
     }
 

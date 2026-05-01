@@ -8,12 +8,13 @@ use crate::error::{Error, Result};
 /// Browser fingerprint to emulate via [`wreq`]. Mirrors the most useful
 /// variants of [`wreq_util::Emulation`] but is serializable so it can live
 /// in TOML config files.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Emulation {
     Chrome134,
     Chrome135,
     Chrome136,
+    #[default]
     Chrome137,
     Firefox136,
     Firefox139,
@@ -21,12 +22,6 @@ pub enum Emulation {
     Safari18_3_1,
     SafariIos18_1_1,
     Okhttp5,
-}
-
-impl Default for Emulation {
-    fn default() -> Self {
-        Emulation::Chrome137
-    }
 }
 
 impl Emulation {
@@ -247,9 +242,7 @@ impl ConfigBuilder {
 
     pub fn build(self) -> Result<Config> {
         if self.inner.probe_paths.is_empty() {
-            return Err(Error::Config(
-                "at least one probe path is required".into(),
-            ));
+            return Err(Error::Config("at least one probe path is required".into()));
         }
         if self.inner.max_js_per_probe == 0 || self.inner.max_js_total == 0 {
             return Err(Error::Config(

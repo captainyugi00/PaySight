@@ -35,8 +35,7 @@ async fn main() -> Result<()> {
     let scanner = Scanner::new(config)?;
 
     // Decide whether to show animated progress.
-    let show_progress =
-        !cli.quiet && colorful && matches!(cli.format, OutputFormat::Text);
+    let show_progress = !cli.quiet && colorful && matches!(cli.format, OutputFormat::Text);
 
     let reports = if show_progress {
         let sink = Arc::new(MultiProgressSink::new());

@@ -4,12 +4,16 @@
 //! SVG vendor logos. Opens in any browser; no external assets except the
 //! Inter / JetBrains Mono fonts pulled from Google Fonts CDN at view time.
 
+// We deliberately use `write!(s, "…\n")` (rather than `writeln!`) so the
+// HTML template reads top-to-bottom in source order — every line in the
+// rendered output corresponds to exactly one `write!` call.
+#![allow(clippy::write_with_newline)]
+
 use std::fmt::Write as _;
 use std::path::Path;
 
 use paysight_core::{
-    AntibotHit, AntibotKind, AuthGateStatus, Confidence, PaymentCategory, PaymentHit,
-    ScanReport,
+    AntibotHit, AntibotKind, AuthGateStatus, Confidence, PaymentCategory, PaymentHit, ScanReport,
 };
 
 use crate::assets::{payment_logo, protection_logo, PLACEHOLDER_SVG, SCRIPT, STYLESHEET};
@@ -116,7 +120,10 @@ fn render_card(s: &mut String, report: &ScanReport) {
         "<div class=\"section\">\n  <h3 class=\"section-title\">Bot mitigation / WAF / CDN</h3>\n"
     );
     if report.antibot_hits.is_empty() {
-        let _ = write!(s, "  <div class=\"empty\">No protection-vendor signatures matched.</div>\n");
+        let _ = write!(
+            s,
+            "  <div class=\"empty\">No protection-vendor signatures matched.</div>\n"
+        );
     } else {
         render_antibot_table(s, &report.antibot_hits);
     }

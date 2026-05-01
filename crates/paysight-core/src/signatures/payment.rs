@@ -152,11 +152,7 @@ pub static PAYMENT_SIGNATURES: &[PaymentSignature] = &[
         vendor: "Mollie",
         slug: "mollie",
         category: PaymentCategory::PrimaryGateway,
-        patterns: &[
-            ("js.mollie.com", 6),
-            ("api.mollie.com", 5),
-            ("Mollie(", 5),
-        ],
+        patterns: &[("js.mollie.com", 6), ("api.mollie.com", 5), ("Mollie(", 5)],
     },
     PaymentSignature {
         vendor: "Razorpay",
@@ -182,10 +178,7 @@ pub static PAYMENT_SIGNATURES: &[PaymentSignature] = &[
         vendor: "Spreedly",
         slug: "spreedly",
         category: PaymentCategory::PrimaryGateway,
-        patterns: &[
-            ("core.spreedly.com", 6),
-            ("Spreedly.init", 5),
-        ],
+        patterns: &[("core.spreedly.com", 6), ("Spreedly.init", 5)],
     },
     PaymentSignature {
         vendor: "2Checkout (Verifone)",
@@ -201,10 +194,7 @@ pub static PAYMENT_SIGNATURES: &[PaymentSignature] = &[
         vendor: "Bambora / Worldline",
         slug: "bambora",
         category: PaymentCategory::PrimaryGateway,
-        patterns: &[
-            ("js.na.bambora.com", 6),
-            ("api.na.bambora.com", 5),
-        ],
+        patterns: &[("js.na.bambora.com", 6), ("api.na.bambora.com", 5)],
     },
     PaymentSignature {
         vendor: "Global Payments / Realex",
@@ -222,10 +212,7 @@ pub static PAYMENT_SIGNATURES: &[PaymentSignature] = &[
         vendor: "Bolt",
         slug: "bolt",
         category: PaymentCategory::PrimaryGateway,
-        patterns: &[
-            ("connect.bolt.com", 6),
-            ("connect-staging.bolt.com", 6),
-        ],
+        patterns: &[("connect.bolt.com", 6), ("connect-staging.bolt.com", 6)],
     },
     PaymentSignature {
         vendor: "Shopify Payments",
@@ -279,10 +266,7 @@ pub static PAYMENT_SIGNATURES: &[PaymentSignature] = &[
         vendor: "Sezzle",
         slug: "sezzle",
         category: PaymentCategory::BuyNowPayLater,
-        patterns: &[
-            ("widget.sezzle.com", 6),
-            ("checkout.sezzle.com", 6),
-        ],
+        patterns: &[("widget.sezzle.com", 6), ("checkout.sezzle.com", 6)],
     },
     PaymentSignature {
         vendor: "Zip / Quadpay",

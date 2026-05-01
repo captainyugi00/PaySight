@@ -60,8 +60,6 @@ fn print_colorful() {
     // Tagline in dim white with a leading bullet that picks up the gradient end.
     let end = grad.at(1.0).to_rgba8();
     let [r, g, b, _] = end;
-    println!(
-        "\x1b[38;2;{r};{g};{b}m  ◆\x1b[0m \x1b[2m{TAGLINE}\x1b[0m"
-    );
+    println!("\x1b[38;2;{r};{g};{b}m  ◆\x1b[0m \x1b[2m{TAGLINE}\x1b[0m");
     println!();
 }

@@ -48,6 +48,4 @@ pub use error::{Error, Result};
 pub use report::{
     AntibotHit, AuthGateStatus, Confidence, CookieFinding, PaymentHit, ProbeOutcome, ScanReport,
 };
-pub use signatures::{
-    AntibotKind, AntibotSignature, PaymentCategory, PaymentSignature,
-};
+pub use signatures::{AntibotKind, AntibotSignature, PaymentCategory, PaymentSignature};

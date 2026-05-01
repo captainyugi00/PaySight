@@ -173,11 +173,7 @@ pub static ANTIBOT_SIGNATURES: &[AntibotSignature] = &[
         vendor: "Kasada",
         slug: "kasada",
         kind: AntibotKind::BotManager,
-        patterns: &[
-            ("kp_uidz", 6),
-            ("x-kpsdk-", 6),
-            ("kasada", 5),
-        ],
+        patterns: &[("kp_uidz", 6), ("x-kpsdk-", 6), ("kasada", 5)],
     },
     AntibotSignature {
         vendor: "Shape Security (F5)",
@@ -278,18 +274,12 @@ pub static ANTIBOT_SIGNATURES: &[AntibotSignature] = &[
         vendor: "Riskified",
         slug: "riskified",
         kind: AntibotKind::Fingerprint,
-        patterns: &[
-            ("beacon.riskified.com", 6),
-            ("riskified", 4),
-        ],
+        patterns: &[("beacon.riskified.com", 6), ("riskified", 4)],
     },
     AntibotSignature {
         vendor: "Signifyd",
         slug: "signifyd",
         kind: AntibotKind::Fingerprint,
-        patterns: &[
-            ("cdn-scripts.signifyd.com", 6),
-            ("signifyd", 4),
-        ],
+        patterns: &[("cdn-scripts.signifyd.com", 6), ("signifyd", 4)],
     },
 ];

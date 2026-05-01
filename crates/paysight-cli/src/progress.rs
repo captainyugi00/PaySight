@@ -50,9 +50,7 @@ impl MultiProgressSink {
                 "  {spinner:.cyan.bold} {prefix:<28.bold} {wide_msg:.dim}",
             )
             .unwrap()
-            .tick_strings(&[
-                "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏",
-            ]),
+            .tick_strings(&["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]),
         );
         bar.set_prefix(target.to_string());
         bar.enable_steady_tick(Duration::from_millis(80));
@@ -89,10 +87,7 @@ impl ProgressSink for MultiProgressSink {
                 c.js_done,
                 fmt_bytes(c.bytes)
             );
-            bar.set_style(
-                ProgressStyle::with_template("  {prefix:<28.bold} {msg}")
-                    .unwrap(),
-            );
+            bar.set_style(ProgressStyle::with_template("  {prefix:<28.bold} {msg}").unwrap());
             bar.set_message(format!("{check} {}", Style::new().dim().apply_to(summary)));
             bar.finish();
         }

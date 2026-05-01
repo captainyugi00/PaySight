@@ -1,5 +1,9 @@
 # PaySight
 
+[![CI](https://github.com/captainyugi00/PaySight/actions/workflows/ci.yml/badge.svg)](https://github.com/captainyugi00/PaySight/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Rust](https://img.shields.io/badge/rust-stable-orange.svg)](https://www.rust-lang.org/)
+
 > Payment + protection stack reconnaissance.
 > Scan any website and get back the payment processor, BNPL provider, wallet, captcha, WAF/CDN, bot manager, and device-fingerprinting vendors it uses — with confidence-scored evidence and a polished HTML / JSON / terminal report.
 

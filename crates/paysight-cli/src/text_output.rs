@@ -7,9 +7,7 @@ use comfy_table::modifiers::UTF8_ROUND_CORNERS;
 use comfy_table::presets::UTF8_FULL;
 use comfy_table::{Cell, CellAlignment, Color, ContentArrangement, Table};
 use console::Style;
-use paysight_core::{
-    AuthGateStatus, Confidence, PaymentCategory, PaymentHit, ScanReport,
-};
+use paysight_core::{AuthGateStatus, Confidence, PaymentCategory, PaymentHit, ScanReport};
 
 pub fn render(report: &ScanReport, colorful: bool) {
     let head = if colorful {
@@ -99,7 +97,11 @@ pub fn render(report: &ScanReport, colorful: bool) {
         ]);
         for h in &report.antibot_hits {
             table.add_row(vec![
-                Cell::new(h.kind.label()).fg(if colorful { Color::Yellow } else { Color::Reset }),
+                Cell::new(h.kind.label()).fg(if colorful {
+                    Color::Yellow
+                } else {
+                    Color::Reset
+                }),
                 Cell::new(&h.vendor).add_attribute(comfy_table::Attribute::Bold),
                 Cell::new(h.score).set_alignment(CellAlignment::Right),
                 Cell::new(h.confidence.label()).fg(confidence_color(h.confidence, colorful)),
@@ -204,7 +206,10 @@ fn confidence_pill(c: Confidence, colorful: bool) -> String {
         Confidence::None | Confidence::Weak => Style::new().bg(console::Color::Color256(238)).dim(),
         Confidence::Moderate => Style::new().bg(console::Color::Color256(94)).white(),
         Confidence::Strong => Style::new().bg(console::Color::Color256(28)).white().bold(),
-        Confidence::VeryStrong => Style::new().bg(console::Color::Color256(127)).white().bold(),
+        Confidence::VeryStrong => Style::new()
+            .bg(console::Color::Color256(127))
+            .white()
+            .bold(),
     };
     style.apply_to(label).to_string()
 }

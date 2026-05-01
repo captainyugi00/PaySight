@@ -35,12 +35,7 @@ async fn main() -> anyhow::Result<()> {
                     .primary_gateway()
                     .map(|h| format!("{} ({})", h.vendor, h.confidence.label()))
                     .unwrap_or_else(|| "no primary gateway".to_string());
-                println!(
-                    "{} → {} · {}",
-                    target,
-                    primary,
-                    report.auth_gate.label()
-                );
+                println!("{} → {} · {}", target, primary, report.auth_gate.label());
                 reports.push(report);
             }
             Err(e) => eprintln!("{target} → error: {e}"),

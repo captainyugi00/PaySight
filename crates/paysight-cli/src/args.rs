@@ -40,7 +40,6 @@ pub struct Cli {
     pub out: Option<PathBuf>,
 
     // --- Scanning behaviour ---
-
     /// Browser emulation profile.
     #[arg(long, value_enum)]
     pub emulation: Option<EmulationArg>,
@@ -82,7 +81,6 @@ pub struct Cli {
     pub redirect_limit: Option<usize>,
 
     // --- Proxy ---
-
     /// Single proxy URL (HTTP / HTTPS / SOCKS5). Use `--proxies-file` for a pool.
     #[arg(long, value_name = "URL", env = "PAYSIGHT_PROXY")]
     pub proxy: Option<String>,
@@ -96,7 +94,6 @@ pub struct Cli {
     pub proxy_strategy: ProxyStrategyArg,
 
     // --- Headers / cookies ---
-
     /// Extra request header in `Name: Value` form (repeatable).
     #[arg(long = "header", short = 'H', value_name = "HEADER", action = clap::ArgAction::Append)]
     pub headers: Vec<String>,
@@ -106,7 +103,6 @@ pub struct Cli {
     pub cookies: Vec<String>,
 
     // --- UI ---
-
     /// Suppress the ASCII banner.
     #[arg(long)]
     pub no_banner: bool,
@@ -224,13 +220,13 @@ pub fn build_config(cli: &Cli) -> Result<Config> {
     }
 
     if let Some(d) = cli.timeout {
-        builder = builder.timeout((*d).into());
+        builder = builder.timeout(*d);
     } else if let Some(secs) = file_config.timeout_secs {
         builder = builder.timeout(Duration::from_secs(secs));
     }
 
     if let Some(d) = cli.connect_timeout {
-        builder = builder.connect_timeout((*d).into());
+        builder = builder.connect_timeout(*d);
     } else if let Some(secs) = file_config.connect_timeout_secs {
         builder = builder.connect_timeout(Duration::from_secs(secs));
     }
@@ -239,11 +235,7 @@ pub fn build_config(cli: &Cli) -> Result<Config> {
         builder = builder.redirect_limit(n);
     }
 
-    if let Some(paths) = cli
-        .probe_paths
-        .clone()
-        .or(file_config.probe_paths.clone())
-    {
+    if let Some(paths) = cli.probe_paths.clone().or(file_config.probe_paths.clone()) {
         builder = builder.probe_paths(paths);
     }
 
